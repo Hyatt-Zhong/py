@@ -11,7 +11,10 @@ class Net(torch.nn.Module):
             torch.nn.Conv2d(1, 1, kernel_size=5),
             torch.nn.ReLU(),
             torch.nn.MaxPool2d(kernel_size=2),
-            torch.nn.MaxPool2d(kernel_size=3),
+            torch.nn.ReLU(),
+            torch.nn.Conv2d(1, 1, kernel_size=4),
+            # torch.nn.ReLU(),
+            # torch.nn.MaxPool2d(kernel_size=2),
         )
 
     def forward(self, x):
@@ -26,30 +29,31 @@ class Net(torch.nn.Module):
 # print(y)
 
 batch_size = 64
-learning_rate = 0.05
+learning_rate = 0.01
 momentum = 0.5
 EPOCH = 5
 
+spec_val=5
 t1 = torch.tensor(
-    [1],
+    [spec_val,0,0,0],
     dtype=torch.float32,
 )
 t2 = torch.tensor(
-    [2],
+    [0,spec_val,0,0],
     dtype=torch.float32,
 )
 t3 = torch.tensor(
-    [3],
+    [0,0,spec_val,0],
     dtype=torch.float32,
 )
 t4 = torch.tensor(
-    [4],
+    [0,0,0,spec_val],
     dtype=torch.float32,
 )
-data = {t1: mat.a, t2: mat.b, t3: mat.c, t4: mat.d}
+data = {t1: mat.a}#, t2: mat.b, t3: mat.c, t4: mat.d}
 
-for res, input in data.items():
-    print(res)
+# for res, input in data.items():
+#     print(res)
 
 model = Net()
 
@@ -58,15 +62,21 @@ optimizer = torch.optim.SGD(
     model.parameters(), lr=learning_rate, momentum=momentum
 )  # lr学习率，momentum冲量
 
-for i in range(0, 1000):
+for i in range(0, 10):
     for res, input in data.items():
-        optimizer.zero_grad()
+        # optimizer.zero_grad()
         output = model(input)
         loss = criterion(output, res)
-
+        
+        print(loss)
         loss.backward()
         optimizer.step()
 
-
-nxx = model(mat.d)
-print(nxx)
+result = model(mat.a)
+print(result)
+result = model(mat.b)
+print(result)
+result = model(mat.c)
+print(result)
+result = model(mat.d)
+print(result)
