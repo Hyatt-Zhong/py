@@ -2,6 +2,8 @@ import matrix as mat
 
 import torch.nn as nn
 import torch
+# pip3 install torch torchvision torchaudio
+# 2.0.1+cpu
 
 
 class Net(torch.nn.Module):
