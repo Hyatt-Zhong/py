@@ -76,7 +76,8 @@ t4 = torch.tensor(
 # data = {t1: mat.a, t2: mat.b, t3: mat.c, t4: mat.d}
 # data = {t1: mat.b, t2: mat.d, t3: mat.c, t4: mat.a}
 # data = {t1: mat.b}#, t2: mat.d, t3: mat.c, t4: mat.a}
-data = {t2: mat.d}
+# data = {t2: mat.d,t2:mat.test_d}
+data = [[t2,mat.d],[t2,mat.test_d]]
 
 
 # for res, input in data.items():
@@ -90,10 +91,10 @@ optimizer = torch.optim.SGD(
 )  # lr学习率，momentum冲量
 
 for i in range(0, 10):
-    for res, input in data.items():
+    for val in data:
         optimizer.zero_grad()
-        output = model(input)
-        loss = criterion(output, res)
+        output = model(val[1])
+        loss = criterion(output, val[0])
 
         print(loss)
         loss.backward()
@@ -103,7 +104,7 @@ for i in range(0, 10):
 for param in model.parameters():
     print(param)
 
-input = mat.d
+input = mat.test_d
 print(model.test(input))
 result = model(input)
 print(result)
