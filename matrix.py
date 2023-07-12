@@ -26,6 +26,9 @@ d=torch.ones(1,1,15,15)
 d[0][0][12:,12:]=spec_val
 print_x(d)
 
+test_val=d
+d[0][0][10:,10:]=spec_val
+
 
 _ii=15
 e=torch.ones(1,1,15,15)

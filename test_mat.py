@@ -10,18 +10,24 @@ import torch
 class Net(torch.nn.Module):
     def __init__(self):
         super(Net, self).__init__()
-        spec_conv = torch.nn.Conv2d(1, 1, kernel_size=5)
-        spec_conv.weight.data.fill_(1)
-        spec_conv.bias.data.fill_(0)
+        conv1 = torch.nn.Conv2d(1, 1, kernel_size=5)
+        conv1.weight.data.fill_(1)
+        conv1.bias.data.fill_(0)
         self.conv1 = torch.nn.Sequential(
-            spec_conv,
+            conv1,
             nn.ReLU(),
             nn.MaxPool2d(kernel_size=2),
-            nn.ReLU(),
-            # torch.nn.Conv2d(1, 1, kernel_size=4),
-            # torch.nn.ReLU(),
-            # torch.nn.MaxPool2d(kernel_size=2),
         )
+
+        conv2 = torch.nn.Conv2d(1, 1, kernel_size=1)
+        conv2.weight.data.fill_(1)
+        conv2.bias.data.fill_(0)
+        self.conv2 = torch.nn.Sequential(
+            conv2,
+            nn.ReLU(),
+            nn.MaxPool2d(kernel_size=2),
+        )
+
         spec_fc = nn.Linear(25, 4)
         spec_fc.weight.data.fill_(1)
         spec_fc.bias.data.fill_(0)
@@ -30,8 +36,19 @@ class Net(torch.nn.Module):
             nn.ReLU(),
         )
 
+        self.sm = nn.Softmax(dim=0)
+
     def forward(self, x):
         x = self.conv1(x)
+        # x = self.conv2(x)
+        x = x.view(-1)
+        x = self.fc(x)
+        x = self.sm(x)
+        return x
+
+    def test(self, x):
+        x = self.conv1(x)
+        # x = self.conv2(x)
         x = x.view(-1)
         x = self.fc(x)
         return x
@@ -64,10 +81,10 @@ t4 = torch.tensor(
     [0, 0, 0, spec_val],
     dtype=torch.float32,
 )
-# data = {t1: mat.a, t2: mat.b, t3: mat.c, t4: mat.d}
+data = {t1: mat.a, t2: mat.b, t3: mat.c, t4: mat.d}
 # data = {t2: mat.b}
 # data = {t3: mat.c}
-data = {t4: mat.d}
+# data = {t4: mat.d}
 
 # for res, input in data.items():
 #     print(res)
@@ -84,7 +101,7 @@ optimizer = torch.optim.SGD(
 
 for i in range(0, 10):
     for res, input in data.items():
-        # optimizer.zero_grad()
+        optimizer.zero_grad()
         output = model(input)
         loss = criterion(output, res)
 
@@ -95,11 +112,14 @@ for i in range(0, 10):
 
 # print(criterion(t4, t4))
 # print("############################")
-# for parameters in model.parameters():
-#     print(parameters)
+for parameters in model.parameters():
+    print(parameters)
 
-result = model(mat.d)
+input = mat.test_val
+result = model(input)
+print(result.size())
 print(result)
+print(model.test(input))
 # result = model(mat.b)
 # print(result)
 # result = model(mat.c)
@@ -107,10 +127,10 @@ print(result)
 # result = model(mat.d)
 # print(result)
 
-tn = torch.tensor(
-    [   0.0000,    0.0000,   3188.0000, 3188.7444],
-    dtype=torch.float32,
-)
+# tn = torch.tensor(
+#     [0.0000, 3188.0000, 3188.0000, 3188.7444],
+#     dtype=torch.float32,
+# )
 
-xloss=criterion(tn, t4)
-print(xloss)
+# print(criterion(tn, t4))
+# print(criterion(t4, t4))
