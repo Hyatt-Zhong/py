@@ -46,3 +46,6 @@ print_x(g)
 h=torch.ones(1,1,15,15)
 h[0][0][12:,12:]=_ii
 print_x(h)
+
+test_d=d
+d[0][0][11:,11:]=spec_val+1
