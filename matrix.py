@@ -1,5 +1,6 @@
 import torch
 import torch.nn as nn
+import random
 
 def print_x(p):
     # print(p)
@@ -49,3 +50,15 @@ print_x(h)
 
 test_d=d
 d[0][0][11:,11:]=spec_val+1
+
+
+bas=40
+aa=torch.ones(bas,1,1,15,15)
+bb=torch.ones(bas,1,1,15,15)
+cc=torch.ones(bas,1,1,15,15)
+dd=torch.ones(bas,1,1,15,15)
+for i in range(bas):
+    aa[i][0][0][:3,:3]=random.randint(7,13)
+    aa[i][0][0][:3,12:]=random.randint(7,13)
+    aa[i][0][0][12:,:3]=random.randint(7,13)
+    aa[i][0][0][12:,12:]=random.randint(7,13)
