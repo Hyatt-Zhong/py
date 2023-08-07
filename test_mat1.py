@@ -75,7 +75,7 @@ class Net1(torch.nn.Module):
         batch_size = x.size(0)
         x = self.conv1(x)  # 一层卷积层,一层池化层,一层激活层(图是先卷积后激活再池化，差别不大)
         x = self.conv2(x)  # 再来一次
-        x = x.view(
+        x = x.view(batch_size, 
             -1
         )  # flatten 变成全连接网络需要的输入 (batch, 20,4,4) ==> (batch,320), -1 此处自动算出的是320
         x = self.fc(x)

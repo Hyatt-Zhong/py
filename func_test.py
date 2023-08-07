@@ -22,12 +22,23 @@ beta = torch.tensor(
 zeros=torch.zeros(4)
 ones=torch.ones(4)
 
-sm = nn.Softmax(dim=0)
-print(sm(alpha))
-CEL = nn.CrossEntropyLoss()
+def functest1(name, fun, x=torch.randn(1)):
+    print(name+":")
+    y=fun(x)
+    print(x,y)
+    print("------------")
 
-print(CEL(b, a))
-print(CEL(a, b))
-print(CEL(zeros,ones))
-print(CEL(ones,zeros))
+def functest2(name, fun, m,n):
+    print(name+":")
+    y=fun(m,n)
+    print(y)
+    print("------------")
 
+functest1("sigmoid",nn.Sigmoid()) 
+functest1("relu",nn.ReLU(),torch.rand(4)) 
+functest1("softmax",nn.Softmax(dim=0),alpha) 
+
+functest2("CEL",nn.CrossEntropyLoss(),b,a)
+functest2("CEL",nn.CrossEntropyLoss(),a,b)
+functest2("CEL",nn.CrossEntropyLoss(),zeros,ones)
+functest2("CEL",nn.CrossEntropyLoss(),ones,zeros)
