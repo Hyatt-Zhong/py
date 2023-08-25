@@ -19,7 +19,7 @@ class Net(torch.nn.Module):
             nn.MaxPool2d(kernel_size=2),
         )
 
-        conv2 = torch.nn.Conv2d(1, 1, kernel_size=1)
+        conv2 = torch.nn.Conv2d(1, 1, kernel_size=3)
         conv2.weight.data.fill_(1)
         conv2.bias.data.fill_(0)
         self.conv2 = torch.nn.Sequential(
@@ -40,10 +40,10 @@ class Net(torch.nn.Module):
 
     def forward(self, x):
         x = self.conv1(x)
-        # x = self.conv2(x)
-        x = x.view(-1)
-        x = self.fc(x)
-        x = self.sm(x)
+        x = self.conv2(x)
+        # x = x.view(-1)
+        # x = self.fc(x)
+        # x = self.sm(x)
         return x
 
     def test(self, x):
@@ -99,27 +99,27 @@ optimizer = torch.optim.SGD(
     model.parameters(), lr=learning_rate, momentum=momentum
 )  # lr学习率，momentum冲量
 
-for i in range(0, 10):
-    for res, input in data.items():
-        optimizer.zero_grad()
-        output = model(input)
-        loss = criterion(output, res)
+# for i in range(0, 10):
+#     for res, input in data.items():
+#         optimizer.zero_grad()
+#         output = model(input)
+#         loss = criterion(output, res)
 
-        print(loss)
-        loss.backward()
-        optimizer.step()
+#         print(loss)
+#         loss.backward()
+#         optimizer.step()
 
 
 # print(criterion(t4, t4))
 # print("############################")
-for parameters in model.parameters():
-    print(parameters)
+# for parameters in model.parameters():
+#     print(parameters)
 
 input = mat.test_val
 result = model(input)
 print(result.size())
 print(result)
-print(model.test(input))
+#print(model.test(input))
 # result = model(mat.b)
 # print(result)
 # result = model(mat.c)

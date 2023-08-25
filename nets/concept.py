@@ -1,5 +1,7 @@
+import sys 
+sys.path.append("..") 
 import torch.nn as nn
-import matrix as mat
+from py import matrix as mat
 
 
 class Net(nn.Module):
@@ -21,6 +23,8 @@ class Net(nn.Module):
         return x
 
 
+x=mat.d
+print(x)
 model = Net()
 nxx = model(mat.d)
 print(nxx)
