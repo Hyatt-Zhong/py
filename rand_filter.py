@@ -35,7 +35,7 @@ output = np.zeros_like(image, np.uint8)
 output[count>=0]=255
 
 # # 显示结果
-cv2.imshow('Noisy Image', output)
+cv2.imshow('Noisy Image', count)
 cv2.waitKey(0)
 cv2.destroyAllWindows()
 
