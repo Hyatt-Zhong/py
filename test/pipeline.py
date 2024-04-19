@@ -15,9 +15,9 @@ class Net(nn.Module):
         #                                   [0., -1., 0.]]]])
         conv_.bias.data.fill_(0)
         self.conv1 = nn.Sequential(
-            conv_,
+            # conv_,
             # nn.ReLU(),
-            # nn.MaxPool2d(kernel_size=2),
+            nn.MaxPool2d(kernel_size=2),
             # nn.MaxPool2d(kernel_size=2),
             # nn.MaxPool2d(kernel_size=2),
         )

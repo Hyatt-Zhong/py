@@ -84,6 +84,7 @@ def train(epoch):
 
         # forward + backward + update
         outputs = model(inputs)
+        print(outputs.shape, target.shape)
         loss = criterion(outputs, target)
 
         loss.backward()

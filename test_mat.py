@@ -40,10 +40,14 @@ class Net(torch.nn.Module):
 
     def forward(self, x):
         x = self.conv1(x)
+        print(x)
         x = self.conv2(x)
-        # x = x.view(-1)
-        # x = self.fc(x)
-        # x = self.sm(x)
+        print(x)
+        x = x.view(-1)
+        print(x)
+        x = self.fc(x)
+        print(x)
+        x = self.sm(x)
         return x
 
     def test(self, x):
@@ -116,6 +120,8 @@ optimizer = torch.optim.SGD(
 #     print(parameters)
 
 input = mat.test_val
+print(input)
+
 result = model(input)
 print(result.size())
 print(result)
