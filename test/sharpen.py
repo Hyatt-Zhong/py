@@ -3,8 +3,9 @@ import numpy as np
 
 # 加载图像
 # img = cv2.imread('screenshot.jpg')
-img = cv2.imread('text.jpg')
+# img = cv2.imread('text.jpg')
 # img = cv2.imread('image.jpg')
+img = cv2.imread('mario.jpg')
 
 # 创建锐化核
 kernel = np.array([[0, -1, 0],
