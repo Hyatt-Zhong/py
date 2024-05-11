@@ -2,42 +2,71 @@ import torch
 import numpy as np
 import torch.nn as nn
 
-con_size = 100
-pic_size = 100
+# sz_pic_input = 1000 #图片输入维度
+sz_pic = 128 #图片处理维度
+sz_con = 32 #概念维度
+# heads = 8 #注意多少个头
+
+sz_context = sz_con #语境空间维度
+
+class Context(nn.Module): #语境
+    def __init__(self):
+        super(Context, self).__init__()
+
+    def forward(self, x):
+        return x
+    
+    
+class Control(nn.Module):#
+    def __init__(self):
+        super(Control, self).__init__()
+        
+    def forward(self, context, x):
+        return x
+    
+
+class Attention(nn.Module):#
+    def __init__(self):
+        super(Attention, self).__init__()
+        
+    def forward(self, context, x):
+        return x
+        
 
 class PicNet(nn.Module):
     def __init__(self):
         super(PicNet, self).__init__()
-        self.conv1 = nn.Sequential(
-            nn.Conv2d(1, 10, kernel_size=5),
-            nn.ReLU(),
-            nn.MaxPool2d(kernel_size=2),
-        )
-        self.conv2 = nn.Sequential(
-            nn.Conv2d(10, 20, kernel_size=5),
-            nn.ReLU(),
-            nn.MaxPool2d(kernel_size=2),
-        )
-        self.conv3 = nn.Sequential(
-            nn.Conv2d(20, 30, kernel_size=5),
-            nn.ReLU(),
-            nn.MaxPool2d(kernel_size=2),
-        )
-        self.fc = nn.Sequential(
-            nn.Linear(2430, 320),
-            nn.Linear(320, con_size),
-        )
+        self.att = Attention()
 
-    def forward(self, x):
-        batch_size = x.size(0)
-        x = self.conv1(x)  
-        x = self.conv2(x)  
-        x = self.conv3(x)  
-        x = x.view(batch_size, -1)  
-        x = self.fc(x)
-        return x 
+    def forward(self, context, x):
+        return x  
     
-# input = torch.randn(1, pic_size, pic_size)
-# mod = PicNet()
-# output = mod(input)
-# print(output)
+
+class AudioNet(nn.Module):
+    def __init__(self):
+        super(AudioNet, self).__init__()
+
+    def forward(self, context, x):
+        return x  
+
+
+# class Concept(nn.Module): #概念
+#     def __init__(self):
+#         super(Concept, self).__init__()
+
+#     def forward(self, x):
+#         return x
+
+# class Cut(nn.Module):#分割 比如分割前景背景 图块分割
+#     def __init__(self, context):
+#         super(Cut, self).__init__()
+
+#     def forward(self, x):
+#         return x
+
+# class Control(nn.module):
+#     def __init__(self):
+#         super(Control, self).__init__()
+
+#     def forward(self, x):
+#         return x

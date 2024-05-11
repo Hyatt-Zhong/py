@@ -40,7 +40,7 @@ for epoch in range(num_epochs):
     outputs = model(inputs)
     # print(inputs)
     loss = criterion(outputs.squeeze(), labels)#这里和单权重的线性回归不一样
-
+    print(loss)
     loss.backward()
     optimizer.step()
 
