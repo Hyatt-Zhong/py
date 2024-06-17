@@ -19,13 +19,23 @@ beta = torch.tensor(
     [1, 2, 3, 4],
     dtype=torch.float32,
 )
+beta2 = torch.tensor(
+    [[1, 2, 3, 4]],
+    dtype=torch.float32,
+)
 
 zeros5 = torch.zeros(1, 1, 5, 5)
 ones9 = torch.ones(1, 1, 9, 9)
 ones5 = torch.ones(1, 1, 5, 5)
 ones2 = torch.ones(1, 1, 2, 2)
 gamma = zeros5
-gamma[0][0][:, 2] = 1
+gamma[0][0][:, 2] = 1  
+# gamma:([[[[0., 0., 1., 0., 0.],
+#           [0., 0., 1., 0., 0.],
+#           [0., 0., 1., 0., 0.],
+#           [0., 0., 1., 0., 0.],
+#           [0., 0., 1., 0., 0.]]]])
+# print(gamma)
 
 delta = copy.deepcopy(zeros5)
 delta[0][0][:, 2] = -1
@@ -73,6 +83,10 @@ def fc_calcu(x):
     fc = nn.Sequential(spec_fc,nn.ReLU())
     return fc(x)
 
+def maxpool1d(x):
+    pool = nn.MaxPool1d(2)
+    return pool(x)
+
 conv2 = nn.Conv2d(1, 4, kernel_size=2, stride=1, padding=0)#注意这里是1个输入和4个卷积核做卷积操作
 ts1122 = torch.tensor([[[[0.0, 2.0], [2.0, 0.0]]]])
 ts4122 = ts1122.expand(4, 1, 2, 2)
@@ -93,6 +107,8 @@ functest1("softmax", nn.Softmax(dim=0), alpha)
 functest1("conv_relu", conv_relu, gamma)
 functest1("conv_relu", conv_relu, delta)
 functest1("fc_calcu", fc_calcu, beta)
+functest1("maxpool1d", maxpool1d, beta2)
+
 structinfo("linear",spec_fc)
 
 functest2("CEL", nn.CrossEntropyLoss(), b, a)
